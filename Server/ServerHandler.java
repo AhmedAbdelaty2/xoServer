@@ -8,7 +8,7 @@ class ServerHandler extends Thread
     DataInputStream dis;
     PrintStream ps;
     String handle;
-    static Vector<ServerHandler> playersVector = new Vector<ServerHandler>();
+    static Vector<ServerHandler> loggedPlayers = new Vector<ServerHandler>();
     String PlayerName, PlayerScore;
 
     public ServerHandler(Socket cs)
@@ -40,8 +40,12 @@ class ServerHandler extends Thread
                         break;
                     }
 
-                }
+                    case "signUp":{
+                        signUpHandler(inData);
+                        break;
+                    }
 
+                }
             }
             catch(IOException ex)
             {
@@ -54,10 +58,10 @@ class ServerHandler extends Thread
         String[] arrData = data.split("\\.");
 
         try {
-            if (playersVector.isEmpty()) {
+            if (loggedPlayers.isEmpty()) {
                 handle = db.signIn(arrData[1], arrData[2]);
             } else {
-                for (ServerHandler s : playersVector) {
+                for (ServerHandler s : loggedPlayers) {
                     if (!(s.PlayerName.equals(arrData[1]))) {
                         handle = db.signIn(arrData[1], arrData[2]);
                     } else {
@@ -71,7 +75,7 @@ class ServerHandler extends Thread
                     ps.println("Pass. "+arrData[1]);
                     this.PlayerName = arrData[1];
                     //this.PlayerScore = db.getScore(this.PlayerName);
-                    playersVector.add(this);
+                    loggedPlayers.add(this);
                     break;
                 case "wrongPass":
                     ps.println("wrongPass.");
@@ -82,6 +86,23 @@ class ServerHandler extends Thread
                 case "wrongName":
                     ps.println("wrongName.");
                     break;
+            }
+        } catch (ArrayIndexOutOfBoundsException AI) {
+            ps.println("wrongName.");
+        } 
+    }
+
+    public void signUpHandler(String data) {
+        String[] arrData = data.split("\\.");
+
+        try {
+            if (db.signUp(arrData[1], arrData[2])) {
+                ps.println("done "+arrData[1]);
+                this.PlayerName = arrData[1];
+                //this.PlayerScore = db.getScore(this.PlayerName);
+                loggedPlayers.add(this);
+            } else {
+                ps.println("failed");
             }
         } catch (ArrayIndexOutOfBoundsException AI) {
             ps.println("wrongName.");
