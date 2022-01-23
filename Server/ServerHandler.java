@@ -76,6 +76,7 @@ class ServerHandler extends Thread
                     this.PlayerName = arrData[1];
                     //this.PlayerScore = db.getScore(this.PlayerName);
                     loggedPlayers.add(this);
+                    ps.println("ldone");
                     break;
                 case "wrongPass":
                     ps.println("wrongPass.");
@@ -101,6 +102,7 @@ class ServerHandler extends Thread
                 this.PlayerName = arrData[1];
                 //this.PlayerScore = db.getScore(this.PlayerName);
                 loggedPlayers.add(this);
+                ps.println("done");
             } else {
                 ps.println("failed");
             }
