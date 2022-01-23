@@ -12,7 +12,8 @@ public class DBConnection
         try
         {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/new", "root","Leavetheduckalone22");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tictactoe1", "root","Leavetheduckalone22");
+            System.out.println("connected");
 
 
 
@@ -46,11 +47,13 @@ public class DBConnection
 
         return "wrongName";
     }
-    boolean signUp(String name, String psw) {
+    boolean signUp(String name,String email ,String psw) {
         try {
-            stmt = con.prepareStatement("insert into player(username,password) values(? ,?)");
+            stmt = con.prepareStatement("insert into players(username, email, password, status) values(?, ?, ?, ?)");
             stmt.setString(1, name);
-            stmt.setString(2, psw);
+            stmt.setString(2, email);
+            stmt.setString(3, psw);
+            stmt.setString(4, "0");
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {

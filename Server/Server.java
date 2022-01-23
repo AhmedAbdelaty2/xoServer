@@ -10,11 +10,11 @@ public class Server
     {
         try
         {
-            serverSocket= new ServerSocket(5002);
+            serverSocket= new ServerSocket(5005);
             while(true)
             {
                 Socket s = serverSocket.accept();
-                new ServerHandler(s);
+                new ServerHandler(s, db);
             }
         }
         catch(IOException ex)

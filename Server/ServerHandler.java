@@ -11,10 +11,11 @@ class ServerHandler extends Thread
     static Vector<ServerHandler> loggedPlayers = new Vector<ServerHandler>();
     String PlayerName, PlayerScore;
 
-    public ServerHandler(Socket cs)
+    public ServerHandler(Socket cs, DBConnection db1)
     {
         try
         {
+            db = db1;
             dis = new DataInputStream(cs.getInputStream());
             ps= new PrintStream(cs.getOutputStream());
             start();
@@ -72,33 +73,32 @@ class ServerHandler extends Thread
 
             switch (handle) {
                 case "pass":
-                    ps.println("Pass. "+arrData[1]);
                     this.PlayerName = arrData[1];
                     //this.PlayerScore = db.getScore(this.PlayerName);
                     loggedPlayers.add(this);
                     ps.println("ldone");
                     break;
                 case "wrongPass":
-                    ps.println("wrongPass.");
+                    ps.println("wrong");
                     break;
                 case "dublicated":
                     ps.println("dublicated.");
                     break;
                 case "wrongName":
-                    ps.println("wrongName.");
+                    ps.println("wrong");
                     break;
             }
         } catch (ArrayIndexOutOfBoundsException AI) {
-            ps.println("wrongName.");
+            ps.println("wrong");
         } 
     }
 
     public void signUpHandler(String data) {
         String[] arrData = data.split("\\.");
+        System.out.println(arrData[0]);
 
         try {
-            if (db.signUp(arrData[1], arrData[2])) {
-                ps.println("done "+arrData[1]);
+            if (db.signUp(arrData[1], arrData[2], arrData[3])) {
                 this.PlayerName = arrData[1];
                 //this.PlayerScore = db.getScore(this.PlayerName);
                 loggedPlayers.add(this);
@@ -107,7 +107,7 @@ class ServerHandler extends Thread
                 ps.println("failed");
             }
         } catch (ArrayIndexOutOfBoundsException AI) {
-            ps.println("wrongName.");
+            ps.println("wrong");
         } 
     }
 }

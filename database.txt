@@ -1,0 +1,28 @@
+
+
+CREATE DATABASE tictactoe1;
+
+
+
+use tictactoe1
+
+CREATE TABLE `players` (
+  `player_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL Unique,
+  `password` varchar(32)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL Unique,
+  `email` varchar(50)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL Unique,
+  `points` int(11) DEFAULT '0',
+  `status` enum('0','1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0',PRIMARY KEY (player_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    CREATE TABLE `games` (
+    `game_id` int(11) NOT NULL AUTO_INCREMENT,
+    `from_player` int(11) NOT NULL,
+    `to_player` int(11) NOT NULL,
+    `winner` int(11) DEFAULT NULL,
+    `status` enum('COMPLETE','INPROGRESS','FAIL') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'COMPLETE',PRIMARY KEY (game_id),
+    FOREIGN KEY(from_player)REFERENCES players (player_id),
+    FOREIGN KEY(to_player)REFERENCES players (player_id),
+    FOREIGN KEY(winner)REFERENCES players (player_id)
+
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
