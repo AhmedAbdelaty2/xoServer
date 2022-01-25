@@ -70,7 +70,7 @@ String pass=password.getText();
 ps.println("signIn"+"."+uname+"."+pass);
 //th1.start();
 replyMsg = dis.readLine();
-//System.out.println(replyMsg);
+System.out.println(replyMsg);
 switch (replyMsg){
         case "ldone":
            { System.out.println("true");

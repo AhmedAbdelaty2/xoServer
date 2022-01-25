@@ -100,8 +100,8 @@ class ServerHandler extends Thread
         try {
             if (db.signUp(arrData[1], arrData[2], arrData[3])) {
                 this.PlayerName = arrData[1];
-                //this.PlayerScore = db.getScore(this.PlayerName);
-                loggedPlayers.add(this);
+                this.PlayerScore = db.getScore(this.PlayerName);
+                //loggedPlayers.add(this);
                 ps.println("done");
             } else {
                 ps.println("failed");

@@ -57,8 +57,8 @@ ex.printStackTrace();
 if(((regpass.getText()).equals(cregpass.getText())) && (!(regpass.getText().equals("")))&& (!(cregpass.getText().equals(""))))
 {
         ps.println("signUp"+"."+regusername.getText()+"."+regemail.getText()+"."+ regpass.getText());
-        //replyMsg = dis.readLine();
-        System.out.println(replyMsg);
+        replyMsg = dis.readLine();
+        //System.out.println(replyMsg);
         if(replyMsg.equals("done"))
             {
                 System.out.println("true");
