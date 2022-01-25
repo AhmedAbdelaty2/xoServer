@@ -74,15 +74,15 @@ class ServerHandler extends Thread
             switch (handle) {
                 case "pass":
                     this.PlayerName = arrData[1];
-                    //this.PlayerScore = db.getScore(this.PlayerName);
+                    this.PlayerScore = db.getScore(this.PlayerName);
                     loggedPlayers.add(this);
-                    ps.println("ldone");
+                    ps.println("ldone."+PlayerName+"."+PlayerScore);
                     break;
                 case "wrongPass":
                     ps.println("wrong");
                     break;
                 case "dublicated":
-                    ps.println("dublicated.");
+                    ps.println("dublicated");
                     break;
                 case "wrongName":
                     ps.println("wrong");

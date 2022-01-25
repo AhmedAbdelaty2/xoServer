@@ -60,4 +60,21 @@ public class DBConnection
             return false;
         }
     }
+
+    String getScore(String playerName){
+        try{
+            stmt = con.prepareStatement("select * from players where username=?");
+            stmt.setString(1, playerName);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(5);
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        } 
+        return null;
+        
+    }
+    
 }
