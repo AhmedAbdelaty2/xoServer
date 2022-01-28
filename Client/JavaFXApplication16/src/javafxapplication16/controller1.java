@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 
 
 
-public class controller1  implements Initializable/*,Runnable*/{
+public  class controller1  implements Initializable/*,Runnable*/{
 
 @FXML
 private TextField username;
@@ -39,41 +39,44 @@ private TextField username;
     private Button login;
 @FXML
     private Button register ;
-String replyMsg;
+static String  replyMsg;
    public    Socket mySocket;
    public DataInputStream dis ;
    public PrintStream ps;
     private Stage stage;
 private Scene scene;
 private Parent root;
-Thread th1;
+
 @Override
-    public void initialize(URL url, ResourceBundle rb) {
+public void initialize(URL url, ResourceBundle rb) {
 
     }
  @FXML
+
 public void login(ActionEvent event) throws IOException {
 try
 {
-mySocket = new Socket(InetAddress.getLocalHost(), 5005);
-dis = new DataInputStream(mySocket.getInputStream ());
-ps = new PrintStream(mySocket.getOutputStream ());
+        mySocket = new Socket(InetAddress.getLocalHost(), 5005);
+        dis = new DataInputStream(mySocket.getInputStream ());
+        ps = new PrintStream(mySocket.getOutputStream ());
 //th1 = new Thread(this);
 
 }
 catch(IOException ex)
 {
-ex.printStackTrace();
+        ex.printStackTrace();
 }
 String uname=username.getText();
 String pass=password.getText();
-ps.println("signIn"+"."+uname+"."+pass);
+ps.println("signIn"+"*"+uname+"*"+pass);
 //th1.start();
 replyMsg = dis.readLine();
 System.out.println(replyMsg);
-switch (replyMsg){
+ String state = replyMsg.split("\\*")[0];
+switch (state){
         case "ldone":
-           { System.out.println("true");
+           { 
+            toplay();
             //switchtoscene3();
             break;
            }
@@ -91,6 +94,11 @@ switch (replyMsg){
         password.setText("");
         break;
     }
+       default:
+        check.setText("Invalid Username or Password!");
+        username.setText("");
+        password.setText("");
+                     break;
 
 
  }           
@@ -106,7 +114,24 @@ stage.show();
 
             
 }
+public void toplay() throws IOException {
 
- 
+ root = FXMLLoader.load(getClass().getResource("Scene_3_UI.fxml"));
+stage=(Stage)check.getScene().getWindow();
+scene=new Scene(root);
+stage.setScene(scene);
+stage.show();
+
+
+            
+}
+
+ public void toplayoffline(ActionEvent event) throws IOException {
+ root = FXMLLoader.load(getClass().getResource("Scene_4_UI.fxml"));
+stage=(Stage)check.getScene().getWindow();
+scene=new Scene(root);
+stage.setScene(scene);
+stage.show();
+}
     
 }

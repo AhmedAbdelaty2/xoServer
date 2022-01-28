@@ -33,7 +33,7 @@ class ServerHandler extends Thread
             try
             {
                 String inData= dis.readLine();
-                String state = inData.split("\\.")[0];
+                String state = inData.split("\\*")[0];
 
                 switch(state){
                     case "signIn":{
@@ -56,7 +56,7 @@ class ServerHandler extends Thread
     }
 
     void signInHandler(String data) {
-        String[] arrData = data.split("\\.");
+        String[] arrData = data.split("\\*");
 
         try {
             if (loggedPlayers.isEmpty()) {
@@ -76,7 +76,7 @@ class ServerHandler extends Thread
                     this.PlayerName = arrData[1];
                     this.PlayerScore = db.getScore(this.PlayerName);
                     loggedPlayers.add(this);
-                    ps.println("ldone."+PlayerName+"."+PlayerScore);
+                    ps.println("ldone*"+PlayerName+"*"+PlayerScore);
                     break;
                 case "wrongPass":
                     ps.println("wrong");
@@ -94,14 +94,14 @@ class ServerHandler extends Thread
     }
 
     public void signUpHandler(String data) {
-        String[] arrData = data.split("\\.");
+        String[] arrData = data.split("\\*");
         System.out.println(arrData[0]);
 
         try {
             if (db.signUp(arrData[1], arrData[2], arrData[3])) {
                 this.PlayerName = arrData[1];
-                this.PlayerScore = db.getScore(this.PlayerName);
-                //loggedPlayers.add(this);
+                //this.PlayerScore = db.getScore(this.PlayerName);
+                loggedPlayers.add(this);
                 ps.println("done");
             } else {
                 ps.println("failed");

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="400.0" maxWidth="660.0" minHeight="400.0" minWidth="660.0" prefHeight="400.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication16.controller1">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication16.controller1">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: 0d8a9c;" BorderPane.alignment="CENTER">
          <children>
@@ -78,7 +78,7 @@
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Button layoutX="56.0" layoutY="302.0" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: #3b3b3b;" text="Play With Computer" textFill="WHITE">
+            <Button layoutX="56.0" layoutY="302.0" mnemonicParsing="false" onAction="#toplayoffline" prefWidth="150.0" style="-fx-background-color: #3b3b3b;" text="Play Offline" textFill="WHITE">
                <effect>
                   <DropShadow />
                </effect></Button>

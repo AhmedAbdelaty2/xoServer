@@ -32,14 +32,6 @@
                   <DropShadow />
                </effect>
             </TextField>
-            <Button layoutX="125.0" layoutY="269.0" mnemonicParsing="false" onAction="#submit" prefWidth="150.0" style="-fx-background-color: #3b3b3b;" text="Submit" textFill="WHITE">
-               <effect>
-                  <DropShadow />
-               </effect>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
             <Label layoutX="106.0" layoutY="57.0" prefHeight="21.0" prefWidth="78.0" style="-fx-font-style: BOLD;" text="Username" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="15.0" />
@@ -48,7 +40,7 @@
                   <DropShadow />
                </effect>
             </Label>
-            <TextField fx:id="regemail" alignment="TOP_CENTER" layoutX="177.0" layoutY="105.0" prefHeight="26.0" prefWidth="173.0" promptText="Enter E-Mail Address" style="-fx-background-color: #762c51; -fx-text-fill: ffffff;">
+            <TextField fx:id="regemail" alignment="TOP_CENTER" layoutX="177.0" layoutY="105.0" prefHeight="26.0" prefWidth="173.0" promptText="example@gmail.com" style="-fx-background-color: #762c51; -fx-text-fill: ffffff;">
                <font>
                   <Font size="13.0" />
                </font>
@@ -96,7 +88,15 @@
                   <DropShadow />
                </effect>
             </PasswordField>
-            <Label fx:id="check1" layoutX="102.0" layoutY="332.0" prefHeight="21.0" prefWidth="197.0" />
+            <Label fx:id="check1" layoutX="142.0" layoutY="318.0" prefHeight="21.0" prefWidth="197.0" textAlignment="CENTER" textFill="#f50000" />
+            <Button layoutX="125.0" layoutY="269.0" mnemonicParsing="false" onAction="#submit" prefWidth="150.0" style="-fx-background-color: #3b3b3b;" text="Submit" textFill="WHITE">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </center>

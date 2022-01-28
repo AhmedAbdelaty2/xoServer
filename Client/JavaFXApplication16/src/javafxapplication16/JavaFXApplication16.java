@@ -29,6 +29,7 @@ public class JavaFXApplication16 extends Application {
         Scene scene = new Scene(root,660,400);
       
         stage.setScene(scene);
+stage.setResizable(false);
         stage.show();
     
     }
