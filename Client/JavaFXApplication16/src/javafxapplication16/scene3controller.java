@@ -1,4 +1,4 @@
- /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -22,11 +22,12 @@ import javafx.stage.Stage;
 
 public   class scene3controller implements Initializable{
 private    Socket mySocket;
-          private DataInputStream dis ;
-          private PrintStream ps;
+          private  DataInputStream dis ;
+          private  PrintStream ps;
  private Stage stage;
        private Scene scene;
       private Parent root;
+        String username; 
 String state1,state2;
        
 @FXML
@@ -43,17 +44,30 @@ try{state2=((registercontroller.replyMsgreg).split("\\*")[0]);}
     catch (Exception ex){state2="";}
 
       if(state1.equals("ldone"))
-        { String username = controller1.replyMsg.split("\\*")[1];
+        {  username = controller1.replyMsg.split("\\*")[1];
           String userpoints = controller1.replyMsg.split("\\*")[2];
                  name.setText(username); 
                 points.setText(userpoints);
       }
   if(state2.equals("done"))
-        { String username = registercontroller.username;
+        {  username = registercontroller.username;
           String userpoints = "0";
                  name.setText(username); 
                 points.setText(userpoints);
       }
+ try
+                {
+                    mySocket = new Socket(InetAddress.getLocalHost(), 5005);
+                    dis = new DataInputStream(mySocket.getInputStream ());
+                    ps = new PrintStream(mySocket.getOutputStream ());
+                    //th1 = new Thread(this);
+                   
+
+                }
+                catch(IOException ex)
+                {
+                    ex.printStackTrace();
+                }
 
     }
 public void displayName(String username) throws IOException {
@@ -61,6 +75,7 @@ public void displayName(String username) throws IOException {
 
 	}
 public void exit(ActionEvent event) throws IOException {
+ ps.println("exit*"+username+"*");
 
 System.exit(0);
 

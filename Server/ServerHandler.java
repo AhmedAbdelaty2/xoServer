@@ -46,11 +46,23 @@ class ServerHandler extends Thread
                         break;
                     }
 
+                    case "exit":{
+                        remv(inData.split("\\*")[1]);
+                        stop();
+                        
+                        break;
+                    }
+
+                    case "multi":{
+                        //invite();
+                        break;
+                    }
+
                 }
             }
             catch(IOException ex)
             {
-                ex.printStackTrace();
+                //ex.printStackTrace();
             }
         }
     }
@@ -59,16 +71,19 @@ class ServerHandler extends Thread
         String[] arrData = data.split("\\*");
 
         try {
+            boolean falg = true;
             if (loggedPlayers.isEmpty()) {
                 handle = db.signIn(arrData[1], arrData[2]);
             } else {
                 for (ServerHandler s : loggedPlayers) {
-                    if (!(s.PlayerName.equals(arrData[1]))) {
-                        handle = db.signIn(arrData[1], arrData[2]);
-                    } else {
+                    if (s.PlayerName.equals(arrData[1])) {
                         handle = "dublicated";
-                    }
+                        falg = false;
+                        break;  
+                    } 
                 }
+                if(falg)
+                    handle = db.signIn(arrData[1], arrData[2]);
             }
 
             switch (handle) {
@@ -77,6 +92,10 @@ class ServerHandler extends Thread
                     this.PlayerScore = db.getScore(this.PlayerName);
                     loggedPlayers.add(this);
                     ps.println("ldone*"+PlayerName+"*"+PlayerScore);
+
+                    /*for(ServerHandler s : loggedPlayers){
+                        System.out.println(s.PlayerName);
+                    }*/
                     break;
                 case "wrongPass":
                     ps.println("wrong");
@@ -93,7 +112,7 @@ class ServerHandler extends Thread
         } 
     }
 
-    public void signUpHandler(String data) {
+    void signUpHandler(String data) {
         String[] arrData = data.split("\\*");
         System.out.println(arrData[0]);
 
@@ -108,7 +127,15 @@ class ServerHandler extends Thread
             }
         } catch (ArrayIndexOutOfBoundsException AI) {
             ps.println("wrong");
-        } 
+        }   
     }
+
+    static void remv(String name){
+        for(ServerHandler s : loggedPlayers){
+            if(s.PlayerName.equals(name))
+                loggedPlayers.remove(s);
+        }
+    }
+
 }
 
