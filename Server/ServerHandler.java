@@ -67,6 +67,7 @@ class ServerHandler extends Thread
                 }
             }catch(IOException ex){
                 //ex.printStackTrace();
+                loggedPlayers.remove(this);
             }
         }
     }
