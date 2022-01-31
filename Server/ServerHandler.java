@@ -158,7 +158,7 @@ class ServerHandler extends Thread
             case "ok":
                 for (ServerHandler s : loggedPlayers) {
                     if (s.playerName.equals(player1name)) {
-                        s.ps.println("start."+player2name+"."+player1name);
+                        s.ps.println("start*"+player2name+"*"+player1name);
                     }
                 }
                 //startMatch();
@@ -166,7 +166,7 @@ class ServerHandler extends Thread
             case "refused":
                 for (ServerHandler s : loggedPlayers) {
                     if (s.playerName.equals(player1name)) {
-                        s.ps.println("refused.");
+                        s.ps.println("refused*");
                     }
                 }
                 break;
