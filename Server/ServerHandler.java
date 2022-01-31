@@ -161,7 +161,7 @@ class ServerHandler extends Thread
                         s.ps.println("start*"+player2name+"*"+player1name);
                     }
                 }
-                //startMatch();
+                 //startMatch();
                 break;
             case "refused":
                 for (ServerHandler s : loggedPlayers) {
