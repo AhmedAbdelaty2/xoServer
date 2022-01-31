@@ -8,7 +8,8 @@ class ServerHandler extends Thread
     DataInputStream dis;
     PrintStream ps;
     String handle;
-    static Vector<ServerHandler> loggedPlayers = new Vector<ServerHandler>();
+    static Vector<ServerHandler> loggedPlayers = new Vector<>();
+    static String loggedNames;
     String playerName, playerScore;
     String player1name, player2name;
 
@@ -44,6 +45,11 @@ class ServerHandler extends Thread
 
                     case "signUp":{
                         signUpHandler(inData);
+                        break;
+                    }
+
+                    case "names":{
+                        getNames();
                         break;
                     }
 
@@ -133,6 +139,17 @@ class ServerHandler extends Thread
         } catch (ArrayIndexOutOfBoundsException AI) {
             ps.println("wrong");
         }   
+    }
+
+    void getNames(){
+        loggedNames = "names*";
+
+        for(ServerHandler s : loggedPlayers)
+            loggedNames += s.playerName+"*";
+        
+        for(ServerHandler s : loggedPlayers)
+            s.ps.println(loggedNames);
+            
     }
 
     static void remv(String name){
