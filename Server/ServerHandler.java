@@ -11,7 +11,7 @@ class ServerHandler extends Thread
     static Vector<ServerHandler> loggedPlayers = new Vector<>();
     static String loggedNames;
     String playerName, playerScore;
-    String player1name, player2name;
+    static String player1name, player2name;
 
     public ServerHandler(Socket cs, DBConnection db1)
     {
