@@ -136,7 +136,7 @@ class ServerHandler extends Thread
     }
 
     void getNames(){
-        loggedNames = "onlinepeople";
+        loggedNames = "onlinepeople*";
 
         for(ServerHandler s : loggedPlayers)
             loggedNames += s.playerName+"*";
@@ -185,4 +185,3 @@ class ServerHandler extends Thread
     }
 
 }
-
