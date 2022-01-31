@@ -9,7 +9,8 @@ class ServerHandler extends Thread
     PrintStream ps;
     String handle;
     static Vector<ServerHandler> loggedPlayers = new Vector<ServerHandler>();
-    String PlayerName, PlayerScore;
+    String playerName, playerScore;
+    String player1name, player2name;
 
     public ServerHandler(Socket cs, DBConnection db1)
     {
@@ -54,9 +55,13 @@ class ServerHandler extends Thread
                     }
 
                     case "multi":{
-                        //invite();
+                        invite(inData);
                         break;
                     }
+
+                    case "reply":
+                        handleRequest(inData.split("\\*")[1]);
+                        break;
 
                 }
             }
@@ -76,7 +81,7 @@ class ServerHandler extends Thread
                 handle = db.signIn(arrData[1], arrData[2]);
             } else {
                 for (ServerHandler s : loggedPlayers) {
-                    if (s.PlayerName.equals(arrData[1])) {
+                    if (s.playerName.equals(arrData[1])) {
                         handle = "dublicated";
                         falg = false;
                         break;  
@@ -88,13 +93,13 @@ class ServerHandler extends Thread
 
             switch (handle) {
                 case "pass":
-                    this.PlayerName = arrData[1];
-                    this.PlayerScore = db.getScore(this.PlayerName);
+                    this.playerName = arrData[1];
+                    this.playerScore = db.getScore(this.playerName);
                     loggedPlayers.add(this);
-                    ps.println("ldone*"+PlayerName+"*"+PlayerScore);
+                    ps.println("ldone*"+playerName+"*"+playerScore);
 
                     /*for(ServerHandler s : loggedPlayers){
-                        System.out.println(s.PlayerName);
+                        System.out.println(s.playerName);
                     }*/
                     break;
                 case "wrongPass":
@@ -118,8 +123,8 @@ class ServerHandler extends Thread
 
         try {
             if (db.signUp(arrData[1], arrData[2], arrData[3])) {
-                this.PlayerName = arrData[1];
-                //this.PlayerScore = db.getScore(this.PlayerName);
+                this.playerName = arrData[1];
+                //this.playerScore = db.getScore(this.playerName);
                 loggedPlayers.add(this);
                 ps.println("done");
             } else {
@@ -132,8 +137,39 @@ class ServerHandler extends Thread
 
     static void remv(String name){
         for(ServerHandler s : loggedPlayers){
-            if(s.PlayerName.equals(name))
+            if(s.playerName.equals(name))
                 loggedPlayers.remove(s);
+        }
+    }
+
+    void invite(String data) throws IOException {
+        String[] receivedData = data.split("\\*");
+        player1name = receivedData[1];
+        player2name = receivedData[2];
+        for (ServerHandler s : loggedPlayers) {
+            if (s.playerName.equals(player2name)) {
+                s.ps.println("request*"+player1name);
+            }
+        }
+    }
+
+    private void handleRequest(String req) {
+        switch (req) {
+            case "ok":
+                for (ServerHandler s : loggedPlayers) {
+                    if (s.playerName.equals(player1name)) {
+                        s.ps.println("start."+player2name+"."+player1name);
+                    }
+                }
+                //startMatch();
+                break;
+            case "refused":
+                for (ServerHandler s : loggedPlayers) {
+                    if (s.playerName.equals(player1name)) {
+                        s.ps.println("refused.");
+                    }
+                }
+                break;
         }
     }
 
