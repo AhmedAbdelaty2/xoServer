@@ -49,6 +49,7 @@ class ServerHandler extends Thread
 
                     case "exit":{
                         remv(inData.split("\\*")[1]);
+                        getNames();
                         stop();
                         
                         break;
@@ -134,7 +135,7 @@ class ServerHandler extends Thread
     }
 
     void getNames(){
-        loggedNames = "";
+        loggedNames = "onlinepeople";
 
         for(ServerHandler s : loggedPlayers)
             loggedNames += s.playerName+"*";
