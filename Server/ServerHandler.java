@@ -8,14 +8,17 @@ class ServerHandler extends Thread
     DataInputStream dis;
     PrintStream ps;
     String handle;
+    Socket playerSocket;
     static Vector<ServerHandler> loggedPlayers = new Vector<>();
     static String loggedNames;
-    String playerName, playerScore;
+    static String playerName, playerScore;
     static String player1name, player2name;
+    int sessionNum = 1;
 
     public ServerHandler(Socket cs, DBConnection db1)
     {
         try{
+            playerSocket=cs;
             db = db1;
             dis = new DataInputStream(cs.getInputStream());
             ps= new PrintStream(cs.getOutputStream());
@@ -67,7 +70,6 @@ class ServerHandler extends Thread
                 }
             }catch(IOException ex){
                 //ex.printStackTrace();
-                //loggedPlayers.remove(this);
             }
         }
     }
@@ -136,7 +138,7 @@ class ServerHandler extends Thread
     }
 
     void getNames(){
-        loggedNames = "onlinepeople*";
+        loggedNames = "";
 
         for(ServerHandler s : loggedPlayers)
             loggedNames += s.playerName+"*";
@@ -163,7 +165,37 @@ class ServerHandler extends Thread
             }
         }
     }
+    void startGame(){
+        Game game = new Game();
+        Socket socket1 = null;
+        for (ServerHandler s: loggedPlayers) {
+            if (s.playerName.equals(player1name)) {
+                socket1 = s.playerSocket;
+            }
+        }
+        Game.Player playerX = game.new Player(socket1, 'X');
 
+        Socket socket2 = null;
+        for (ServerHandler s : loggedPlayers) {
+            if (s.playerName.equals(player2name)) {
+                socket2 = s.playerSocket;
+            }
+        }
+        Game.Player playerO = game.new Player(socket2, 'O');
+
+        playerX.setOpponent(playerO);
+        playerO.setOpponent(playerX);
+        game.currentPlayer = playerX;
+        playerX.start();
+        playerO.start();
+        /*
+        //starting the thread for two players
+        System.out.println(new Date() + ":     Starting a thread for session " + sessionNum++ + "...\n");
+        NewSession task;
+        task = new NewSession(socket1 ,);
+        Thread t1 = new Thread(task);
+        t1.start();*/
+    }
     private void handleRequest(String req){
         switch (req){
             case "ok":
@@ -172,7 +204,8 @@ class ServerHandler extends Thread
                         s.ps.println("start*"+player2name+"*"+player1name);
                     }
                 }
-                 //startMatch();
+
+             startGame();
                 break;
             case "refused":
                 for(ServerHandler s : loggedPlayers){
