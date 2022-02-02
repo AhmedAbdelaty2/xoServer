@@ -11,7 +11,7 @@ class ServerHandler extends Thread
     Socket playerSocket;
     static Vector<ServerHandler> loggedPlayers = new Vector<>();
     static String loggedNames;
-    static String playerName, playerScore;
+    String playerName, playerScore;
     static String player1name, player2name;
     int sessionNum = 1;
 
@@ -20,8 +20,8 @@ class ServerHandler extends Thread
         try{
             playerSocket=cs;
             db = db1;
-            dis = new DataInputStream(cs.getInputStream());
-            ps= new PrintStream(cs.getOutputStream());
+            dis = new DataInputStream(playerSocket.getInputStream());
+            ps= new PrintStream(playerSocket.getOutputStream());
             start();
         }catch(IOException ex){
             ex.printStackTrace();
@@ -36,7 +36,11 @@ class ServerHandler extends Thread
 
                 switch(state){
                     case "signIn":{
+                        System.out.println("1");
                         signInHandler(inData);
+                        System.out.println("2");
+                        getNames();
+                        System.out.println("3");
                         break;
                     }
 
@@ -53,8 +57,6 @@ class ServerHandler extends Thread
                     case "exit":{
                         remv(inData.split("\\*")[1]);
                         getNames();
-                        stop();
-                        
                         break;
                     }
 
@@ -70,6 +72,10 @@ class ServerHandler extends Thread
                 }
             }catch(IOException ex){
                 //ex.printStackTrace();
+                //System.out.println("h");
+                loggedPlayers.remove(this);
+                break;
+                
             }
         }
     }
@@ -138,20 +144,27 @@ class ServerHandler extends Thread
     }
 
     void getNames(){
-        loggedNames = "";
+        loggedNames = "onlinepeople";
 
         for(ServerHandler s : loggedPlayers)
-            loggedNames += s.playerName+"*";
+            loggedNames += "*"+s.playerName;
         
+        System.out.println(loggedNames);
         for(ServerHandler s : loggedPlayers)
             s.ps.println(loggedNames);
+
             
     }
 
-    static void remv(String name){
+    static void remv(String name) throws IOException{
         for(ServerHandler s : loggedPlayers){
-            if(s.playerName.equals(name))
+            if(s.playerName.equals(name)){
                 loggedPlayers.remove(s);
+                break;
+            }
+        for(ServerHandler s1 : loggedPlayers){
+            System.out.println(s1.playerName+s1.playerSocket);
+        }
         }
     }
 
