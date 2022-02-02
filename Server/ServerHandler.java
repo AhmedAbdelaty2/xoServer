@@ -36,11 +36,8 @@ class ServerHandler extends Thread
 
                 switch(state){
                     case "signIn":{
-                        System.out.println("1");
                         signInHandler(inData);
-                        System.out.println("2");
                         getNames();
-                        System.out.println("3");
                         break;
                     }
 
