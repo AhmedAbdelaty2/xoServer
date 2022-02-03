@@ -14,6 +14,7 @@ class ServerHandler extends Thread
     String playerName, playerScore;
     static String player1name, player2name;
     int sessionNum = 1;
+    boolean serverFlag = false;
 
     public ServerHandler(Socket cs, DBConnection db1)
     {
@@ -34,39 +35,40 @@ class ServerHandler extends Thread
                 String inData= dis.readLine();
                 String state = inData.split("\\*")[0];
 
-                switch(state){
-                    case "signIn":{
-                        signInHandler(inData);
-                        getNames();
-                        break;
+                //if(serverFlag){
+                    switch(state){
+                        case "signIn":{
+                            signInHandler(inData);
+                            getNames();
+                            break;
+                        }
+
+                        case "signUp":{
+                            signUpHandler(inData);
+                            break;
+                        }
+
+                        case "names":{
+                            getNames();
+                            break;
+                        }
+
+                        case "exit":{
+                            remv(inData.split("\\*")[1]);
+                            getNames();
+                            break;
+                        }
+
+                        case "multi":{
+                            invite(inData);
+                            break;
+                        }
+
+                        case "reply":
+                            handleRequest(inData.split("\\*")[1]);
+                            break;
                     }
-
-                    case "signUp":{
-                        signUpHandler(inData);
-                        break;
-                    }
-
-                    case "names":{
-                        getNames();
-                        break;
-                    }
-
-                    case "exit":{
-                        remv(inData.split("\\*")[1]);
-                        getNames();
-                        break;
-                    }
-
-                    case "multi":{
-                        invite(inData);
-                        break;
-                    }
-
-                    case "reply":
-                        handleRequest(inData.split("\\*")[1]);
-                        break;
-
-                }
+                //}
             }catch(IOException ex){
                 //ex.printStackTrace();
                 //System.out.println("h");
@@ -175,37 +177,7 @@ class ServerHandler extends Thread
             }
         }
     }
-    void startGame(){
-        Game game = new Game();
-        Socket socket1 = null;
-        for (ServerHandler s: loggedPlayers) {
-            if (s.playerName.equals(player1name)) {
-                socket1 = s.playerSocket;
-            }
-        }
-        Game.Player playerX = game.new Player(socket1, 'X');
-
-        Socket socket2 = null;
-        for (ServerHandler s : loggedPlayers) {
-            if (s.playerName.equals(player2name)) {
-                socket2 = s.playerSocket;
-            }
-        }
-        Game.Player playerO = game.new Player(socket2, 'O');
-
-        playerX.setOpponent(playerO);
-        playerO.setOpponent(playerX);
-        game.currentPlayer = playerX;
-        playerX.start();
-        playerO.start();
-        /*
-        //starting the thread for two players
-        System.out.println(new Date() + ":     Starting a thread for session " + sessionNum++ + "...\n");
-        NewSession task;
-        task = new NewSession(socket1 ,);
-        Thread t1 = new Thread(task);
-        t1.start();*/
-    }
+    
     private void handleRequest(String req){
         switch (req){
             case "ok":
@@ -225,6 +197,24 @@ class ServerHandler extends Thread
                 }
                 break;
         }
+    }
+
+    void startGame(){
+        Socket socket1 = null;
+        Socket socket2 = null;
+        for (ServerHandler s: loggedPlayers) {
+            if (s.playerName.equals(player1name)) {
+                socket1 = s.playerSocket;
+            }
+        }
+        
+        for (ServerHandler s : loggedPlayers) {
+            if (s.playerName.equals(player2name)) {
+                socket2 = s.playerSocket;
+            }
+        }
+        
+        Game game = new Game(socket1, socket2);
     }
 
 }

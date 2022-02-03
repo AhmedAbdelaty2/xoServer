@@ -76,5 +76,17 @@ public class DBConnection
         return null;
         
     }
+
+   /* void updateScore(String name, int score) {
+        try {
+
+            stmt = conn.prepareStatement("update player set win_score=? where user_name=?");
+            stmt.setString(1, "" + score);
+            stmt.setString(2, name);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
     
 }
