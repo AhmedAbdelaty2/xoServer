@@ -26,6 +26,3 @@ CREATE TABLE `players` (
     FOREIGN KEY(winner)REFERENCES players (player_id)
 
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `player` (`win_score` int(11) DEFAULT '0',`pass` varchar(32)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL Unique,
-			`user_name` varchar(50)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL Unique,PRIMARY KEY (user_name))ENGINE=InnoDB DEFAULT CHARSET=utf8;
