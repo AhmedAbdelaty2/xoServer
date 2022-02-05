@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * @author moham
  */
 public class registercontroller {
-        private    Socket mySocket;
+       // private    Socket mySocket;
           private DataInputStream dis ;
           private PrintStream ps;
 
@@ -52,9 +52,9 @@ String hmail;
        public void submit(ActionEvent event) throws IOException {
                 try
                 {
-                    mySocket = new Socket(InetAddress.getLocalHost(), 5005);
-                    dis = new DataInputStream(mySocket.getInputStream ());
-                    ps = new PrintStream(mySocket.getOutputStream ());
+                    //mySocket = new Socket(InetAddress.getLocalHost(), 5005);
+                    dis = new DataInputStream(controller1.mySocket.getInputStream ());
+                    ps = new PrintStream(controller1.mySocket.getOutputStream ());
                     //th1 = new Thread(this);
                    
 

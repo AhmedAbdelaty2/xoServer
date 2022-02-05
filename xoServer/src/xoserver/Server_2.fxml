@@ -35,12 +35,12 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <TableView layoutX="36.0" layoutY="63.0" prefHeight="375.0" prefWidth="567.0">
+      <TableView fx:id="Table" layoutX="36.0" layoutY="63.0" prefHeight="375.0" prefWidth="567.0">
         <columns>
-          <TableColumn prefWidth="167.0" text="Username" />
-          <TableColumn prefWidth="130.0" text="Points" />
-            <TableColumn prefWidth="149.0" text="Status" />
-            <TableColumn prefWidth="140.0" text="isPlaying" />
+          <TableColumn fx:id="userName" prefWidth="167.0" text="Username" />
+          <TableColumn fx:id="points" prefWidth="130.0" text="Points" />
+            <TableColumn fx:id="status" prefWidth="149.0" text="Status" />
+            <TableColumn fx:id="isPlaying" prefWidth="140.0" text="email" />
         </columns>
       </TableView>
    </children>

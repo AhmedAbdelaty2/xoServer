@@ -1,8 +1,11 @@
 package javafxapplication16;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.Initializable;
 import java.awt.Component;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -17,8 +20,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import static javafxapplication16.scene3controller.username;
 
-public class gameController implements Initializable {
+public class gameControllerAi implements Initializable {
+ private  DataInputStream dis ;
+          private  PrintStream ps;
     @FXML
     private Button btn0;
     @FXML
@@ -37,15 +44,11 @@ public class gameController implements Initializable {
     private Button btn7;
     @FXML
     private Button btn8;
-    private int turn =2;
-
-    public void setTurn() {
-        this.turn = 2;
-    }
     public boolean boardWin = false;
+    public boolean isPlayerTurn =true;
 
     public int[] btnused={0,0,0,0,0,0,0,0,0};
-    public boolean btnCheck = false;
+    public int counter=0;
     public ArrayList<Button>btnGroup = new ArrayList<>();
     private Button btn;
     private int Xcount=0;
@@ -78,6 +81,20 @@ public class gameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+ try
+                {
+                    
+                    dis = new DataInputStream(controller1.mySocket.getInputStream ());
+                    ps = new PrintStream(controller1.mySocket.getOutputStream ());
+                    
+                   
+
+                }
+                catch(IOException ex)
+                {
+                    ex.printStackTrace();
+                }
+
         btnGroup.add(btn0);
         btnGroup.add(btn1);
         btnGroup.add(btn2);
@@ -88,36 +105,38 @@ public class gameController implements Initializable {
         btnGroup.add(btn7);
         btnGroup.add(btn8);
     }
+
     @FXML
     private void btnAction (ActionEvent event) {
-        int buttonChecker=0;
-        Button x = (Button)(event.getSource());
-        for(int i = 0;i<9;i++)
-        {
-            if (btnGroup.get(i) == x)
-            { buttonChecker = i; }
-        }
-        if (btnused[buttonChecker] == 0) {
-            if (turn % 2 == 0) {
-                turn++;
-                btnGroup.get(buttonChecker).setText("X");
-                btnGroup.get(buttonChecker).setTextFill(Color.rgb(255, 49, 72));
-                btnused[buttonChecker] = 1;
-                btnGroup.get(buttonChecker).setStyle("-fx-background-color:#3b3b3b");
-            } else {
-                turn++;
-                btnGroup.get(buttonChecker).setText("O");
-                btnGroup.get(buttonChecker).setTextFill(Color.rgb(255, 49, 72));
-                btnGroup.get(buttonChecker).setStyle("-fx-background-color:#3b3b3b");
-                btnused[buttonChecker] = 1;
+        if (isPlayerTurn) {
+            int buttonChecker = 0;
+            Button x = (Button) (event.getSource());
+            for (int i = 0; i < 9; i++)
+            {
+                if (btnGroup.get(i) == x)
+                {
+                    buttonChecker = i;
+                }
             }
-            gameLogic();
+            if (btnused[buttonChecker] == 0) {
+                    counter++;
+                    btnGroup.get(buttonChecker).setText("X");
+                    btnGroup.get(buttonChecker).setTextFill(Color.rgb(255, 49, 72));
+                    btnused[buttonChecker] = 1;
+                    btnGroup.get(buttonChecker).setStyle("-fx-background-color:#3b3b3b");
+                }
+                gameLogic();
+                isPlayerTurn = false;
+                Ai();
+            }
+
         }
 
-    }
+
 
     public void tologin(ActionEvent event) throws IOException
     {
+        ps.println("exit*"+username+"*");
         root = FXMLLoader.load(getClass().getResource("Scene_1_UI.fxml"));
         stage=(Stage)scoreX.getScene().getWindow();
         scene=new Scene(root);
@@ -128,7 +147,7 @@ public class gameController implements Initializable {
     {
         Ocount++;
         score();
-        onGameEndLabel.setText("O Has Won!\n" + "Press Play Again to Restart!");
+        onGameEndLabel.setText("Computer Has Won!\n" + "Press Play Again to Restart!");
         onGameEndLabel.setFont(new Font(30));
         onGameEndLabel.setVisible(true);
         onGameEndPane.setVisible(true);
@@ -138,7 +157,7 @@ public class gameController implements Initializable {
     {
         Xcount++;
         score();
-        onGameEndLabel.setText("X Has Won!\n" + "Press Play Again to Restart!");
+        onGameEndLabel.setText("Player Has Won!\n" + "Press Play Again to Restart!");
         onGameEndLabel.setFont(new Font(30));
         onGameEndLabel.setVisible(true);
         onGameEndPane.setVisible(true);
@@ -149,7 +168,7 @@ public class gameController implements Initializable {
         b.setStyle("-fx-background-color:#1bb4da");
         c.setStyle("-fx-background-color:#1bb4da");
     }
-    public void gameLogic()
+    private void gameLogic()
     {
         b0=btn0.getText();
         b1=btn1.getText();
@@ -244,7 +263,7 @@ public class gameController implements Initializable {
             }
         }
         if(btnused[0]==1 && btnused[1]==1 && btnused[2]==1 && btnused[3]==1 && btnused[4]==1 &&
-                btnused[5]==1 && btnused[6]==1 && btnused[7]==1 && btnused[8]==1 && !boardWin)
+           btnused[5]==1 && btnused[6]==1 && btnused[7]==1 && btnused[8]==1 && !boardWin)
         {
             onGameEndLabel.setText("Draw!\n" + "Press Play Again to Restart!");
             onGameEndLabel.setFont(new Font(30));
@@ -271,6 +290,8 @@ public class gameController implements Initializable {
         }
         onGameEndLabel.setVisible(false);
         onGameEndPane.setVisible(false);
+        isPlayerTurn = true;
+        counter =0;
 
     }
     @FXML
@@ -283,5 +304,32 @@ public class gameController implements Initializable {
     {
         onGameReset();
     }
+    public void Ai() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(.3));
+        pause.setOnFinished((ActionEvent event) -> {
+            int indexGenerated = (int) (Math.random() * 8);
+            while ((btnused[indexGenerated] != 0) && counter<8 ) {
+                indexGenerated = (int) (Math.random() * 8);
+            }
+            if (!isPlayerTurn && !boardWin) {
 
+                Button computerbtn = btnGroup.get(indexGenerated);
+
+                computerbtn.setText("O");
+                computerbtn.setTextFill(Color.rgb(255, 49, 72));
+                computerbtn.setStyle("-fx-background-color:#3b3b3b");
+                counter++;
+                btnused[indexGenerated] = 1;
+                isPlayerTurn = true;
+                gameLogic();
+            }
+        });
+        pause.play();
+        }
 }
+
+
+
+
+
+

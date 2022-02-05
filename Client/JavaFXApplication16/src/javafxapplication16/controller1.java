@@ -40,7 +40,7 @@ private TextField username;
 @FXML
     private Button register ;
 static String  replyMsg;
-   public    Socket mySocket;
+   public  static  Socket mySocket;
    public DataInputStream dis ;
    public PrintStream ps;
     private Stage stage;
@@ -49,11 +49,6 @@ private Parent root;
 
 @Override
 public void initialize(URL url, ResourceBundle rb) {
-
-    }
- @FXML
-
-public void login(ActionEvent event) throws IOException {
 try
 {
         mySocket = new Socket(InetAddress.getLocalHost(), 5005);
@@ -66,6 +61,12 @@ catch(IOException ex)
 {
         ex.printStackTrace();
 }
+
+    }
+ @FXML
+
+public void login(ActionEvent event) throws IOException {
+
 String uname=username.getText();
 String pass=password.getText();
 ps.println("signIn"+"*"+uname+"*"+pass);
@@ -127,11 +128,13 @@ stage.show();
 }
 
  public void toplayoffline(ActionEvent event) throws IOException {
- root = FXMLLoader.load(getClass().getResource("Scene_4_UI.fxml"));
+ root = FXMLLoader.load(getClass().getResource("Scene_3_UI_Edited.fxml"));
 stage=(Stage)check.getScene().getWindow();
 scene=new Scene(root);
 stage.setScene(scene);
 stage.show();
+
+
 }
     
 }

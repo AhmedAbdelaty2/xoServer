@@ -1,13 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package xoserver;
 
-/**
- *
- * @author Ahmed
- */
-public class Server {
+import  java.io.*;
+import java.net.*;
+import java.util.Vector;
+
+public class Server extends Thread
+{
+    static DBConnection db;
+    ServerSocket serverSocket;
+    public Server() 
+    {
+        try
+        {
+            serverSocket= new ServerSocket(5005);
+            db = new DBConnection();
+            //start();
+            /*while(true)
+            {
+                Socket s = serverSocket.accept();
+                new ServerHandler(s, db);
+            }*/
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    public void run(){
+        try{
+System.out.println("lol");
+        while(true){
+            Socket s = serverSocket.accept();
+            new ServerHandler(s, db);
+            }
+        
+        }catch(IOException ex){
+        ex.printStackTrace();
+        }
+
+        }
+    }
     
-}

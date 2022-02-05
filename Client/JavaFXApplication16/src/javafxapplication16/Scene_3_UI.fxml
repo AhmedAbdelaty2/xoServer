@@ -9,57 +9,52 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication16.scene3controller">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication16.scene3controller">
    <center>
       <AnchorPane prefHeight="150.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="300.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="407.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@Scene%203.jpg" />
+                  <Image url="@Scene_Online_1.jpg" />
                </image>
             </ImageView>
-            <Button layoutX="297.0" layoutY="128.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: #3b3b3b;" text="Play With Computer" textFill="WHITE">
+            <Button layoutX="22.0" layoutY="182.0" mnemonicParsing="false" onAction="#playWithComputerAction" prefHeight="71.0" prefWidth="222.0" stylesheets="@Buttons.css" text="Play With Computer" textFill="WHITE">
                <effect>
                   <DropShadow />
                </effect>
                <font>
-                  <Font size="18.0" />
+                  <Font size="21.0" />
                </font>
             </Button>
-            <Button layoutX="204.0" layoutY="197.0" mnemonicParsing="false" onAction="#exit" prefHeight="39.0" prefWidth="92.0" style="-fx-background-color: #3b3b3b;" text="Exit" textFill="WHITE">
+            <Button layoutX="244.0" layoutY="295.0" mnemonicParsing="false" onAction="#exit" prefHeight="48.0" prefWidth="113.0" stylesheets="@Buttons.css" text="Exit" textFill="WHITE">
                <effect>
                   <DropShadow />
                </effect>
                <font>
-                  <Font size="18.0" />
+                  <Font size="21.0" />
                </font>
             </Button>
-            <Button layoutX="38.0" layoutY="127.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="172.0" style="-fx-background-color: #3b3b3b;" text="Play With a Friend" textFill="WHITE">
+            <Button layoutX="357.0" layoutY="182.0" mnemonicParsing="false" onAction="#toonline" prefHeight="70.0" prefWidth="222.0" stylesheets="@Buttons.css" text="Play With a Friend" textFill="WHITE">
                <effect>
                   <DropShadow />
                </effect>
                <font>
-                  <Font size="18.0" />
+                  <Font size="21.0" />
                </font>
             </Button>
-            <Label layoutX="14.0" layoutY="31.0" text="User Name:" textFill="#e1ff00">
+            <Label fx:id="name" alignment="CENTER" layoutX="229.0" layoutY="82.0" prefHeight="44.0" prefWidth="139.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="name" layoutX="113.0" layoutY="31.0" prefHeight="27.0" prefWidth="85.0" textFill="#f50606">
+            <Label layoutX="240.0" layoutY="126.0" text="Points:" textFill="#ff3148">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="314.0" layoutY="31.0" text="Points:" textFill="#e1ff00">
+            <Label fx:id="points" layoutX="312.0" layoutY="126.0" prefHeight="27.0" prefWidth="67.0" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="points" layoutX="379.0" layoutY="31.0" prefHeight="27.0" prefWidth="67.0" textFill="#f50606">
-               <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
          </children>

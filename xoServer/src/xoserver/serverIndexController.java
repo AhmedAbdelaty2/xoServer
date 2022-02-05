@@ -36,16 +36,16 @@ public class serverIndexController {
 
     @FXML
     void closeApplication(ActionEvent event) {
-System.exit(0);
+        System.exit(0);
     }
 
     @FXML
     void openServer(ActionEvent event) throws IOException {
-               root = FXMLLoader.load(getClass().getResource("Server_2.fxml"));
-               stage=(Stage)openServerButton.getScene().getWindow();
-               scene=new Scene(root);
-               stage.setScene(scene);
-               stage.show();
+        root = FXMLLoader.load(getClass().getResource("Server_2.fxml"));
+        stage=(Stage)openServerButton.getScene().getWindow();
+        scene=new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
